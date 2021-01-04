@@ -9,13 +9,16 @@ import piece from "./piece.png";
 import thumbs_up from "./thumbs_up.png";
 import up from "./up.png";
 import call from "./call.png";
+import love from "./love.png";
+
+import {loveYouGesture} from "./LoveYouGesture"; 
 
 function App() {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
   const [emoji, setEmoji] = useState(null);
-  const images = { thumbs_up: thumbs_up, victory: piece };
+  const images = { thumbs_up: thumbs_up, victory: piece, love: love};
 
   const runHandpose = async () => {
     const net = await handpose.load();
@@ -54,10 +57,11 @@ function App() {
         const GE = new fp.GestureEstimator([
           fp.Gestures.VictoryGesture,
           fp.Gestures.ThumbsUpGesture,
+          loveYouGesture
         ]);
         const gesture = await GE.estimate(hand[0].landmarks, 4);
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
-   
+          console.log(gesture.gestures)
 
           const confidence = gesture.gestures.map(
             (prediction) => prediction.confidence
